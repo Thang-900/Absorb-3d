@@ -461,7 +461,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4031058790859373}
   - component: {fileID: 54976455217888031}
-  - component: {fileID: -1749280532006756311}
+  - component: {fileID: 5667016862205811840}
+  - component: {fileID: 8720610940942633719}
   - component: {fileID: 2275540848896175672}
   - component: {fileID: 65577756480693997}
   - component: {fileID: 95000547482061333}
@@ -516,7 +517,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &-1749280532006756311
+--- !u!114 &5667016862205811840
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -525,10 +526,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1531099582292957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e242de35c95bdb248bc990ec7b098ee3, type: 3}
+  m_Script: {fileID: 11500000, guid: 22c913e2effeb04489cb5cb666c6794f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 54976455217888031}
+  rotationSpeed: 6
+--- !u!114 &8720610940942633719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531099582292957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712ffcd505ef1e241b8c2e042fef7beb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpForce: 14
+  jumpInterval: 3
+  canJump: 1
 --- !u!114 &2275540848896175672
 MonoBehaviour:
   m_ObjectHideFlags: 0

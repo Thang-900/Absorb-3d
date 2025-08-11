@@ -26,7 +26,7 @@ public class RandomSpawnObjects : MonoBehaviour
 
             // Sinh vị trí ngẫu nhiên trong vùng spawnZone
             Vector3 randomPosition = transform.position + Random.insideUnitSphere * spawnZone;
-            randomPosition.y = 0; // Cố định y để trên mặt đất
+            randomPosition.y = 5f; // Cố định y để trên mặt đất
 
             // Kiểm tra khoảng cách với các vị trí đã spawn
             bool canTakePosition = true;
@@ -38,11 +38,11 @@ public class RandomSpawnObjects : MonoBehaviour
                     break;
                 }
             }
-
+            
             // Nếu hợp lệ thì spawn và lưu vị trí
             if (canTakePosition)
             {
-                Instantiate(objToSpawn, randomPosition, Quaternion.identity);
+                Instantiate(objToSpawn, randomPosition, Quaternion.Euler(0, 0, 0));
                 spawnedPositions.Add(randomPosition);
                 countObject++;
             }
