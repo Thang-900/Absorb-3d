@@ -19,6 +19,5 @@ public class RealseBonusText : MonoBehaviour
             setText.callText(textBonus);
             Destroy(gameObject);
         }
-        
     }
 }
