@@ -7,17 +7,16 @@ public class FloatingText : MonoBehaviour
     public float lifeTime = 1.5f;
     private TextMeshPro textMesh;
 
-    void Start()
+    void Awake()
     {
         textMesh = GetComponent<TextMeshPro>();
         Destroy(gameObject, lifeTime);
-        transform.rotation = Quaternion.Euler(45f, 0f, 0f);
     }
 
 
     void Update()
     {
-        transform.Translate((new Vector3(0, 0, 45)).normalized * moveUpSpeed * Time.deltaTime);
+        transform.Translate(Vector3.up * moveUpSpeed * Time.deltaTime);
     }
 
     public void SetText(string text)
