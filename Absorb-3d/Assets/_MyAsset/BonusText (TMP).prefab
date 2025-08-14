@@ -53,7 +53,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveUpSpeed: 1
   lifeTime: 1.5
-  textMesh: {fileID: 9043369417633158237}
 --- !u!23 &6758017978255410983
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -143,8 +142,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 6.47
-  m_fontSizeBase: 6.47
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

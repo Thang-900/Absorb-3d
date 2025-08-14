@@ -6,9 +6,12 @@ public class RealseBonusText : MonoBehaviour
 {
     private SetBonusText setText;
     public string textBonus;
-    void Start()
+    private LevelUp levelUp;
+    public float experienceGain = 100f; // Amount of experience to gain on release
+    void Awake()
     {
-        setText = GetComponent<SetBonusText>();
+        setText = GameObject.Find("SetBonusText").GetComponent<SetBonusText>();
+        levelUp = GameObject.Find("Ground").GetComponent<LevelUp>();
     }
 
     // Update is called once per frame
@@ -16,6 +19,7 @@ public class RealseBonusText : MonoBehaviour
     {
         if (gameObject.transform.position.y <= -1)
         {
+            levelUp.GainExperience(experienceGain); // Assuming you want to gain 100 experience on release
             setText.callText(textBonus);
             Destroy(gameObject);
         }

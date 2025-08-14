@@ -22,9 +22,24 @@ public class SetBonusText : MonoBehaviour
     // Update is called once per frame
     public void callText(string text)
     {
-        Instantiate(floatingTextPrefab, spawnPosition, Quaternion.identity)
-    .GetComponent<FloatingText>()
-    .SetText(text);
+        
+        TextMeshPro newText = Instantiate(floatingTextPrefab, spawnPosition + new Vector3(Random.Range(0, 10f), Random.Range(0, 1.5f),0), Quaternion.identity);
+        newText.text = text;
+        if (text == "Level Up")
+        {
+            newText.fontSize *= 1.5f; 
+            newText.transform.position += new Vector3(0, 2, 0);
+            newText.color = Color.yellow; // Change color for level up text
+        }
+        else
+        {
+            // Random màu RGB trong khoảng 0–1
+            newText.color = RandomBrightColor();
+        }
+    }
+    Color RandomBrightColor()
+    {
+        return Color.HSVToRGB(Random.value, 1f, 1f);
     }
     //settext lỗi vì nó được gọi trước khi tạo ra prefab
 }

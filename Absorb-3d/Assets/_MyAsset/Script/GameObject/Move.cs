@@ -19,7 +19,7 @@ public class Move : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Vector3 movement = new Vector3(horizontal, 0, vertical) * speed * Time.fixedDeltaTime;
+        Vector3 movement = new Vector3(horizontal, 0, vertical).normalized * speed * Time.fixedDeltaTime;
         rb.MovePosition(transform.position + movement);
     }
 }

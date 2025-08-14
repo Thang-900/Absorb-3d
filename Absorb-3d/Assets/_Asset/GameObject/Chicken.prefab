@@ -138,6 +138,7 @@ GameObject:
   - component: {fileID: 782541570633211479}
   - component: {fileID: 65927623212345991}
   - component: {fileID: 95723443221459097}
+  - component: {fileID: -3394023812493274225}
   m_Layer: 0
   m_Name: Chicken
   m_TagString: Feed
@@ -259,6 +260,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3394023812493274225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1273806135728455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abdd4cd9d53e4004aa84237ec061f41c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textBonus: +100
+  experienceGain: 100
 --- !u!1 &1332481507585333
 GameObject:
   m_ObjectHideFlags: 0

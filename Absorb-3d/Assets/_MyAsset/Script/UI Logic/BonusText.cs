@@ -12,8 +12,6 @@ public class FloatingText : MonoBehaviour
         textMesh = GetComponent<TextMeshPro>();
         Destroy(gameObject, lifeTime);
     }
-
-
     void Update()
     {
         transform.Translate(Vector3.up * moveUpSpeed * Time.deltaTime);
