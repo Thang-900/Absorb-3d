@@ -23,11 +23,12 @@ public class SetBonusText : MonoBehaviour
     public void callText(string text)
     {
         
-        TextMeshPro newText = Instantiate(floatingTextPrefab, spawnPosition + new Vector3(Random.Range(0, 10f), Random.Range(0, 1.5f),0), Quaternion.identity);
+        TextMeshPro newText = Instantiate(floatingTextPrefab, spawnPosition + new Vector3(Random.Range(0, 10f), Random.Range(0, 1.5f), 0), Quaternion.identity);
         newText.text = text;
+        Debug.Log("goc cúa text: " + newText.transform.rotation);
         if (text == "Level Up")
         {
-            newText.fontSize *= 1.5f; 
+            newText.fontSize *= 1.5f;
             newText.transform.position += new Vector3(0, 2, 0);
             newText.color = Color.yellow; // Change color for level up text
         }

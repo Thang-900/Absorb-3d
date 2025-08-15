@@ -14,7 +14,7 @@ public class FloatingText : MonoBehaviour
     }
     void Update()
     {
-        transform.Translate(Vector3.up * moveUpSpeed * Time.deltaTime);
+        transform.Translate(Vector3.forward * moveUpSpeed * Time.deltaTime);
     }
 
     public void SetText(string text)
