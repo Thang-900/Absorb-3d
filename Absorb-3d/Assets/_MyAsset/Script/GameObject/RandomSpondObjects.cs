@@ -54,33 +54,7 @@ public class RandomSpawnObjects : MonoBehaviour
             }
         }
     }
-    public void missionRelease()
-    {
-        // Bước 1: Gom các object cùng tên
-        Dictionary<string, List<GameObject>> groupedObjects = new Dictionary<string, List<GameObject>>();
-        foreach (GameObject obj in spawedObjects)
-        {
-            string objName = obj.name.Replace("(Clone)", "").Trim(); // loại bỏ (Clone) Unity tự thêm
-            if (!groupedObjects.ContainsKey(objName))
-            {
-                groupedObjects[objName] = new List<GameObject>();
-            }
-            groupedObjects[objName].Add(obj);
-        }  
-
-        // Bước 2: Tạo nhiệm vụ ngẫu nhiên
-        foreach (var kvp in groupedObjects)
-        {
-            string objName = kvp.Key;
-            List<GameObject> objList = kvp.Value;
-
-            // Chọn số lượng nhiệm vụ ngẫu nhiên (ví dụ từ 1 đến tổng số object của loại đó)
-            int taskCount = Random.Range(1, objList.Count + 1);
-
-            Debug.Log($"Mission: Collect {taskCount} of {objName}");
-            // Ở đây bạn có thể lưu vào list nhiệm vụ hoặc trigger UI nhiệm vụ
-        }
-    }
+    
 
 
     private void OnDrawGizmos()

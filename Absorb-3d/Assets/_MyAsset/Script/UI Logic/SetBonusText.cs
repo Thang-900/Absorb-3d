@@ -25,7 +25,7 @@ public class SetBonusText : MonoBehaviour
         
         TextMeshPro newText = Instantiate(floatingTextPrefab, spawnPosition + new Vector3(Random.Range(0, 10f), Random.Range(0, 1.5f), 0), Quaternion.identity);
         newText.text = text;
-        Debug.Log("goc cúa text: " + newText.transform.rotation);
+        newText.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
         if (text == "Level Up")
         {
             newText.fontSize *= 1.5f;
@@ -37,6 +37,7 @@ public class SetBonusText : MonoBehaviour
             // Random màu RGB trong khoảng 0–1
             newText.color = RandomBrightColor();
         }
+        Debug.Log("goc cúa text: " + newText.transform.eulerAngles);
     }
     Color RandomBrightColor()
     {

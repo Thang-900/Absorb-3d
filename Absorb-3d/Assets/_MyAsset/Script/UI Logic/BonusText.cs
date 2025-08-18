@@ -12,13 +12,16 @@ public class FloatingText : MonoBehaviour
         textMesh = GetComponent<TextMeshPro>();
         Destroy(gameObject, lifeTime);
     }
+
     void Update()
     {
-        transform.Translate(Vector3.forward * moveUpSpeed * Time.deltaTime);
+        transform.Translate(Vector3.up * moveUpSpeed * Time.deltaTime, Space.World);
     }
 
-    public void SetText(string text)
+    void LateUpdate()
     {
-        textMesh.text = text;
+        Vector3 euler = transform.eulerAngles;
+        euler.x = 90f;
+        transform.eulerAngles = euler;
     }
 }
