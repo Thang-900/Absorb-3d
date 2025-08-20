@@ -21,7 +21,6 @@ public class PlayerMoveRotation : MonoBehaviour
             moveDirection = delta.normalized;
             // Quay object theo hướng di chuyển
             transform.rotation = Quaternion.LookRotation(moveDirection);
-            Debug.Log("Moving in direction: " + moveDirection);
         }
 
         lastPosition = currentPosition;
