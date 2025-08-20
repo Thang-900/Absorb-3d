@@ -7,8 +7,7 @@ using UnityEngine;
 public class TaskNeed : MonoBehaviour
 {
     //private int count = 0;
-    public int countOfMission = 0;
-    public int maxCountOfMission = 3;
+    public int maxCountOfMission;
     public Dictionary<string, int> TaskNeeding = new Dictionary<string, int>();
     public Dictionary<string, List<GameObject>> GroupedObjects = new Dictionary<string, List<GameObject>>();
     private bool tasksAssigned = false;
@@ -36,7 +35,6 @@ public class TaskNeed : MonoBehaviour
                 GroupedObjects[name] = new List<GameObject>();
             }
             GroupedObjects[name].Add(Objs);
-
         }
 
         //xem các nhóm objects
@@ -47,18 +45,19 @@ public class TaskNeed : MonoBehaviour
         }
 
 
+        int count = 0;
         //phân công nhiêm vụ
         foreach (var groupedObjs in GroupedObjects)
         {
-            if (countOfMission < maxCountOfMission && countOfMission < GroupedObjects.Count)
+            count++;
+            if (count < maxCountOfMission && count < GroupedObjects.Count)
             {
-                int randum = Mathf.Max(0, groupedObjs.Value.Count - 4);
+                int randum = Random.Range(0, groupedObjs.Value.Count - 1);
                 string taskName = groupedObjs.Key;
                 int taskCount = groupedObjs.Value.Count - randum;
                 TaskNeeding[taskName] = taskCount;
-                Debug.Log($"phân công {taskName}, số lương:  {taskCount}, số lượng lặp: {countOfMission}, số lượng nhóm: {GroupedObjects.Count}");
+                Debug.Log($"phân công {taskName}, số lương:  {taskCount}, số lượng lặp: {count}, số lượng nhóm: {GroupedObjects.Count}");
             }
-            countOfMission++;
 
         }
     }
