@@ -2,20 +2,19 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!1 &1510282119321978
 GameObject:
-  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4608989063820982}
   - component: {fileID: 33091568704709582}
   - component: {fileID: 23779862542102724}
   - component: {fileID: 54004068031557787}
-  - component: {fileID: 114021157539678657}
   - component: {fileID: 65282580227131870}
   - component: {fileID: 135286106446056482}
-  - component: {fileID: 114261677213231930}
+  - component: {fileID: 6372210755604246828}
   m_Layer: 0
   m_Name: MushroomV2
   m_TagString: Feed
@@ -30,13 +29,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510282119321978}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.9601345, y: -2.3717025E-06, z: -17.34581}
+  m_LocalPosition: {x: -4.9601345, y: -0.0000023717025, z: -17.34581}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -0, z: 0}
 --- !u!33 &33091568704709582
 MeshFilter:
@@ -92,63 +91,74 @@ MeshRenderer:
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!54 &54004068031557787
 Rigidbody:
-  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510282119321978}
+  serializedVersion: 4
   m_Mass: 1.5
   m_Drag: 0
   m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &114021157539678657
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1510282119321978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83b3022c90acc22b6430083d98d136b6, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  Value: 150
-  Special: 0
-  feedType: 8
-  _value: 0
 --- !u!65 &65282580227131870
 BoxCollider:
-  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510282119321978}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
+  serializedVersion: 3
   m_Size: {x: 0.1943561, y: 0.55092895, z: 0.16858786}
   m_Center: {x: 0.0011628015, y: 0.27546448, z: 0.005727474}
 --- !u!135 &135286106446056482
 SphereCollider:
-  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510282119321978}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
+  serializedVersion: 3
   m_Radius: 0.24177745
   m_Center: {x: 0.0016096447, y: 0.33, z: -0.00028635774}
---- !u!114 &114261677213231930
+--- !u!114 &6372210755604246828
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,9 +167,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1510282119321978}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b2efb462e1fc4e0e42bd9ca3e166ea3, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  RandomColorActivated: 0
-  renderer: {fileID: 23779862542102724}
-  materialIndex: 1
+  m_Script: {fileID: 11500000, guid: abdd4cd9d53e4004aa84237ec061f41c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textBonus: +100
+  experienceGain: 100
