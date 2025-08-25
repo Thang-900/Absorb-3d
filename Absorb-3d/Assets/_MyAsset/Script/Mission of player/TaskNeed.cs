@@ -56,9 +56,12 @@ public class TaskNeed : MonoBehaviour
                 string taskName = groupedObjs.Key;
                 int taskCount = groupedObjs.Value.Count - randum;
                 TaskNeeding[taskName] = taskCount;
-                Debug.Log($"phân công {taskName}, số lương:  {taskCount}, số lượng lặp: {count}, số lượng nhóm: {GroupedObjects.Count}");
+                Debug.Log($"phân công {taskName}, số lương:  {TaskNeeding[taskName]}, số lượng lặp: {count}, số lượng nhóm: {GroupedObjects.Count}");
             }
-
+            foreach(var pair in TaskNeeding)
+            {
+                Debug.Log($"---nhiệm vụ hiện tại: {pair.Key} với số lượng: {pair.Value}");
+            }
         }
     }
     public static string GetCleanName(GameObject obj)

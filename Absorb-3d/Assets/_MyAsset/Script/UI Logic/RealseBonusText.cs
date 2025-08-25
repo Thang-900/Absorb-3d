@@ -25,11 +25,10 @@ public class RealseBonusText : MonoBehaviour
         if (gameObject.transform.position.y <= -1.5f)
         {
             levelUp.GainExperience(experienceGain); // Assuming you want to gain 100 experience on release
-            setText.callText(textBonus);
-            taskHave.taskProgress(gameObject);
-            //
-            taskState.updateTask();
-            Destroy(gameObject);
+            setText.callText(textBonus);// goi màu ch? khác nhau cho d?p
+            taskHave.taskProgress(gameObject);// g?i d? c?p nh?t l?i s? lu?ng dã hoàn thành
+            taskState.updateTask(); // g?i d? c?p nh?t nhi?m v?
+            Destroy(gameObject); // h?y v?t th?
         }
     }
 }

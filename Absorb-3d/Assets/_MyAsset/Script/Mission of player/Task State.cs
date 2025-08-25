@@ -53,14 +53,14 @@ public class TaskState : MonoBehaviour
 
         foreach (string task in need)
         {
-            foreach (string haveTask in have)
-            {
-                if (task == haveTask)
-                {
+            //foreach (string haveTask in have)
+            //{
+            //    if (task == haveTask)
+            //    {
                     taskManager.Add(task);
                     Debug.Log($"need và have có chung task: {task}");
-                }
-            }
+            //    }
+            //}
         }
     }
     //// chạy hàm bên dưới mỗi khi một object biến mất

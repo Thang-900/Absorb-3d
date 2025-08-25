@@ -22,7 +22,7 @@ public class TaskHave : MonoBehaviour
             checkedTask = true;
         }
     }
-    private void creat()
+    private void creat() // xử lý tiến độ hoàn thành nhiệm vụ
     {
 
         // Nếu muốn copy nguyên dictionary (key + value giống hệt)
@@ -35,7 +35,11 @@ public class TaskHave : MonoBehaviour
         // xem danh sach cac object dang co
         foreach (var task in TaskHaving)
         {
-            Debug.Log($"Nhiệm vụ taskHave: {task.Key}, Số lượng: {task.Value}");
+            Debug.Log($"++Nhiệm vụ taskHave: {task.Key}, Số lượng: {task.Value}");
+        }
+        foreach(var task in taskNeed.TaskNeeding)
+        {
+            Debug.Log($"++Nhiệm vụ taskNeed: {task.Key}, Số lượng: {task.Value}");
         }
 
     }
