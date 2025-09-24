@@ -3,7 +3,21 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - WBuilder
+  - R4
+  - R2
+  - Trophy
+  - R1
+  - SpinScreen
+  - SC
+  - Pusher
+  - QLay
+  - Cursor
+  - R3
+  - Ground
+  - Feed
+  - chicken
   layers:
   - Default
   - TransparentFX
@@ -11,7 +25,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Feed
   - 
   - 
   - 
