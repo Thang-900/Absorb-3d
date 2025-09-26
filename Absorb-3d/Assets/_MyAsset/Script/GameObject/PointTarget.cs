@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class PointTarget : MonoBehaviour
 {
     private Transform ground;
+    private Vector3 moveDirection;
 
     public float radaZone = 10f;
     // Start is called before the first frame update
@@ -21,18 +22,24 @@ public class PointTarget : MonoBehaviour
     }
     private void ScanningRada()
     {
-        Collider[] collider = Physics.OverlapSphere(ground.position, radaZone, LayerMask.GetMask("Feed"));
-
-
-        if (collider.Length > 0)
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radaZone, LayerMask.GetMask("Feed"));
+        if (colliders.Length > 0)
         {
-            Collider neareast = collider[0];
-            Vector3 neareastPos = transform.position - neareast.transform.position;
-            neareastPos.y = 0;
+            Collider nearest = colliders[0];
+            Vector3 direction = nearest.transform.position - transform.position; // hướng từ mình -> target
+            direction.y = 0; // bỏ trục Y để chỉ quay trong mặt phẳng ngang
+
+            if (direction.sqrMagnitude > 0.0001f)
+            {
+                transform.rotation = Quaternion.LookRotation(direction);
+            }
+
             Debug.Log("Found Target");
-            transform.rotation = Quaternion.LookRotation(neareastPos);
+            Debug.Log("current rotation: " + transform.rotation.eulerAngles); // đổi sang Euler cho dễ đọc
+            Debug.Log("direction to target: " + direction);
         }
     }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

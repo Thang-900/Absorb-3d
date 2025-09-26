@@ -10,7 +10,7 @@ public class TaskState : MonoBehaviour
     public string[] have;
     private List<string> taskManager = new List<string>();
     TaskHave taskHave;
-    TaskNeed taskNeed;
+    TaskManager taskNeed;
     bool runTaskRelease = false;
     public Text taskComment;
     string comments="";
@@ -18,7 +18,7 @@ public class TaskState : MonoBehaviour
     void Start()
     {
         taskHave = GameObject.Find("TaskManager").GetComponent<TaskHave>();
-        taskNeed = GameObject.Find("TaskManager").GetComponent<TaskNeed>();
+        taskNeed = GameObject.Find("TaskManager").GetComponent<TaskManager>();
     }
     
     

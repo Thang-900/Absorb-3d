@@ -6,12 +6,12 @@ using System.Linq; // để dùng ToDictionary
 public class TaskHave : MonoBehaviour
 {
     public Dictionary<string, int> TaskHaving = new Dictionary<string, int>();
-    private TaskNeed taskNeed;
+    private TaskManager taskNeed;
     private bool checkedTask = false;
 
     void Start()
     {
-        taskNeed = GameObject.Find("TaskManager").GetComponent<TaskNeed>();
+        taskNeed = GameObject.Find("TaskManager").GetComponent<TaskManager>();
     }
 
     private void LateUpdate()
@@ -33,20 +33,20 @@ public class TaskHave : MonoBehaviour
         TaskHaving = taskNeed.GroupedObjects.Keys.ToDictionary(keySelector: k => k, elementSelector: k => 0);
 
         // xem danh sach cac object dang co
-        foreach (var task in TaskHaving)
-        {
-            Debug.Log($"++Nhiệm vụ taskHave: {task.Key}, Số lượng: {task.Value}");
-        }
-        foreach(var task in taskNeed.TaskNeeding)
-        {
-            Debug.Log($"++Nhiệm vụ taskNeed: {task.Key}, Số lượng: {task.Value}");
-        }
+        //foreach (var task in TaskHaving)
+        //{
+        //    Debug.Log($"++Nhiệm vụ taskHave: {task.Key}, Số lượng: {task.Value}");
+        //}
+        //foreach(var task in taskNeed.TaskNeeding)
+        //{
+        //    Debug.Log($"++Nhiệm vụ taskNeed: {task.Key}, Số lượng: {task.Value}");
+        //}
 
     }
     public void taskProgress(GameObject absortedObj)
     {
-        string taskName = TaskNeed.GetCleanName(absortedObj);
+        string taskName = TaskManager.GetCleanName(absortedObj);
         TaskHaving[taskName] += 1;
-        Debug.Log($" +1 ở {taskName} , số lượng hiện tại:{TaskHaving[taskName]} ");
+        //Debug.Log($" +1 ở {taskName} , số lượng hiện tại:{TaskHaving[taskName]} ");
     }
 }

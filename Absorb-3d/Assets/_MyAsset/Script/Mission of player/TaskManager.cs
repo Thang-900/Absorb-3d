@@ -4,25 +4,25 @@ using System.Text.RegularExpressions;
 using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
 
-public class TaskNeed : MonoBehaviour
+public class TaskManager : MonoBehaviour
 {
     //private int count = 0;
     public int maxCountOfMission;
     public Dictionary<string, int> TaskNeeding = new Dictionary<string, int>();
     public Dictionary<string, List<GameObject>> GroupedObjects = new Dictionary<string, List<GameObject>>();
     private bool tasksAssigned = false;
-    public int count = 0; // đếm số lượng nhiệm vụ đã phân công, để tránh lặp lại   
 
     //Nên tính toán theo level hiện tại. có lẽ nên có set tối đa.
     private void Update()
     {
         if (!tasksAssigned)
         {
-            taskPublish();
+            GroupTask();
+            TaskAssignment();
             tasksAssigned = true; // đánh dấu đã chạy
         }
     }
-    private void taskPublish()
+    private void GroupTask()//1. nhóm các object cùng loại
     {
         GameObject[] curentOBJ = GameObject.FindGameObjectsWithTag("Feed");
 
@@ -36,35 +36,32 @@ public class TaskNeed : MonoBehaviour
             }
             GroupedObjects[name].Add(Objs);
         }
+    }
 
-        //xem các nhóm objects
-
-        foreach (var pair in GroupedObjects)
-        {
-            Debug.Log($"đang có {pair.Value.Count} ở nhóm {pair.Key}");
-        }
-
-
+    private void TaskAssignment()//2. Phân công nhiệm vụ từ các object đã nhóm
+    {
         int count = 0;
         //phân công nhiêm vụ
         foreach (var groupedObjs in GroupedObjects)
         {
             count++;
+            Debug.Log($"đang phân công nhiệm vụ lần {count}");
             if (count < maxCountOfMission && count < GroupedObjects.Count)
             {
                 int randum = Random.Range(0, groupedObjs.Value.Count - 1);
                 string taskName = groupedObjs.Key;
                 int taskCount = groupedObjs.Value.Count - randum;
                 TaskNeeding[taskName] = taskCount;
-                Debug.Log($"phân công {taskName}, số lương:  {TaskNeeding[taskName]}, số lượng lặp: {count}, số lượng nhóm: {GroupedObjects.Count}");
             }
-            foreach(var pair in TaskNeeding)
-            {
-                Debug.Log($"---nhiệm vụ hiện tại: {pair.Key} với số lượng: {pair.Value}");
-            }
+
         }
     }
-    public static string GetCleanName(GameObject obj)
+
+    private void TaskProgress()//3. Cập nhật tiến độ nhiệm vụ trong background
+    {
+
+    }    
+    public static string GetCleanName(GameObject obj)//1.2. Chuẩn hóa tên object
     {
         // Lấy tên gốc
         string rawName = obj.name;
