@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEditor.Profiling.Memory.Experimental;
 using UnityEngine;
+using System.Linq; // để dùng ToDictionary
 
 public class TaskManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class TaskManager : MonoBehaviour
     public int maxCountOfMission;
     public Dictionary<string, int> TaskNeeding = new Dictionary<string, int>();
     public Dictionary<string, List<GameObject>> GroupedObjects = new Dictionary<string, List<GameObject>>();
+    public Dictionary<string, int> TaskHaving = new Dictionary<string, int>();
+
     private bool tasksAssigned = false;
 
     //Nên tính toán theo level hiện tại. có lẽ nên có set tối đa.
@@ -18,7 +21,7 @@ public class TaskManager : MonoBehaviour
         if (!tasksAssigned)
         {
             GroupTask();
-            TaskAssignment();
+            TasksAssignment();
             tasksAssigned = true; // đánh dấu đã chạy
         }
     }
@@ -38,7 +41,7 @@ public class TaskManager : MonoBehaviour
         }
     }
 
-    private void TaskAssignment()//2. Phân công nhiệm vụ từ các object đã nhóm
+    private void TasksAssignment()//2. Phân công nhiệm vụ từ các object đã nhóm
     {
         int count = 0;
         //phân công nhiêm vụ
@@ -57,10 +60,16 @@ public class TaskManager : MonoBehaviour
         }
     }
 
-    private void TaskProgress()//3. Cập nhật tiến độ nhiệm vụ trong background
+    private void TasksProgress()//3. Cập nhật tiến độ nhiệm vụ trong background
     {
+        TaskHaving = TaskNeeding.Keys.ToDictionary(keySelector: k => k, elementSelector: k => 0);
 
-    }    
+    }  
+    private void TaskProgress(string key)
+    {
+        TaskHaving[key] += 1;
+
+    }
     public static string GetCleanName(GameObject obj)//1.2. Chuẩn hóa tên object
     {
         // Lấy tên gốc
