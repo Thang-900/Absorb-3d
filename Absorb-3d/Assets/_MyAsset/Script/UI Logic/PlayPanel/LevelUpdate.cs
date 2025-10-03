@@ -8,7 +8,6 @@ public class LevelUpdate : MonoBehaviour
     // ham giu vi tri cua tung o hien thi level
     public int level = 0;
     public Text[] levelTexts;
-    private bool reLoopText = false;
     public void UpdateTextLevel(int currentLevel)
     {
         Debug.Log("UpdateTextLevel: " + currentLevel);

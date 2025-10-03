@@ -40,7 +40,7 @@ public class TaskState : MonoBehaviour
     }
     private void taskRelease()
     {
-        need = taskNeed.TaskNeeding.Keys.ToArray();
+        need = taskNeed.taskNeeding.Keys.ToArray();
         have = taskHave.TaskHaving.Keys.ToArray();
         foreach (var ne in need)
         {
@@ -69,7 +69,7 @@ public class TaskState : MonoBehaviour
         comments = "";
         foreach (var task in taskManager)
         {
-            if (taskHave.TaskHaving[task] >= taskNeed.TaskNeeding[task])
+            if (taskHave.TaskHaving[task] >= taskNeed.taskNeeding[task])
             {
                 Debug.Log($"hoàn thành nhiệm vụ: {task}");
                 //taskHave.TaskHaving.Remove(task);
@@ -78,8 +78,8 @@ public class TaskState : MonoBehaviour
             }
             else
             {
-                Debug.Log($"còn thiếu {taskNeed.TaskNeeding[task] - taskHave.TaskHaving[task]} ở nhiệm vụ {task}");
-                comments += $"{task} cần: {taskNeed.TaskNeeding[task]} có: {taskHave.TaskHaving[task]}\n";
+                Debug.Log($"còn thiếu {taskNeed.taskNeeding[task] - taskHave.TaskHaving[task]} ở nhiệm vụ {task}");
+                comments += $"{task} cần: {taskNeed.taskNeeding[task]} có: {taskHave.TaskHaving[task]}\n";
                 Debug.Log("222 " + comments);
             }
         }
