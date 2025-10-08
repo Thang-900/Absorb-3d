@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerMoveRotation2 : MonoBehaviour
+public class PointToTarget : MonoBehaviour
 {
     private Vector3 lastPosition;
     private Vector3 moveDirection;
