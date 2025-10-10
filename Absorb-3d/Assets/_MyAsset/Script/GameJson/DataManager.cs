@@ -18,9 +18,73 @@ public class DataManager : MonoBehaviour
         }
     }
 
-
     public SaveManager saveManager;
     public PlayerData currentData;
+    public void SaveGold(int newGold)
+    {
+        currentData.Gold = newGold;
+        saveManager.Save(currentData);
+    }
+    public void SaveDiamond(int newDiamond)
+    {
+        currentData.Diamond = newDiamond;
+        saveManager.Save(currentData);
+    }
+    public void SaveSkinId(int newSkinId)
+    {
+        currentData.SkinId = newSkinId;
+        saveManager.Save(currentData);
+    }
+    public void SaveListSkinOwned(int newListSkinOwned)
+    {
+        currentData.ListSkinOwned.Add(newListSkinOwned);
+        saveManager.Save(currentData);
+    }
+    public void SaveMapLevel(int newMapLevel)
+    {
+        currentData.MapLevel = newMapLevel;
+        saveManager.Save(currentData);
+    }
+    public void SaveTalentTreeLevel(int newTalentTreeLevel)
+    {
+        currentData.TalentTreeLevel = newTalentTreeLevel;
+        saveManager.Save(currentData);
+    }
+    public void SaveIncomeLevel(int newIncomeLevel)
+    {
+        currentData.TabIncomeLevel = newIncomeLevel;
+        saveManager.Save(currentData);
+    }
+    public void SaveVacuumLevel(int newVacuumLevel)
+    {
+        currentData.TabVacuumLevel = newVacuumLevel;
+        saveManager.Save(currentData);
+    }
+    public void SaveTabSpeedLevel(int newTabSpeedLevel)
+    {
+        currentData.TabSpeedLevel = newTabSpeedLevel;
+        saveManager.Save(currentData);
+    }
+    public void SaveScaleRateOnStart(float newScaleRateOnStart)
+    {
+        currentData.ScaleRateOnStart = newScaleRateOnStart;
+        saveManager.Save(currentData);
+    }
+    public void SaveVaccumRateOnStart(float newVaccumRateOnStart)
+    {
+        currentData.VaccumRateOnStart = newVaccumRateOnStart;
+        saveManager.Save(currentData);
+    }
+    public void SaveIncomeRateOnStart(float newIncomeRateOnStart)
+    {
+        currentData.IncomeRateOnStart = newIncomeRateOnStart;
+        saveManager.Save(currentData);
+    }
+    public void SaveSpeedRateOnStart(float newSpeedRateOnStart)
+    {
+        currentData.SpeedRateOnStart = newSpeedRateOnStart;
+        saveManager.Save(currentData);
+    }
     private void Start()
     {
         currentData = saveManager.Load();
@@ -34,7 +98,5 @@ public class DataManager : MonoBehaviour
     {
         if (pause) saveManager.Save(currentData);
     }
-
-
 
 }

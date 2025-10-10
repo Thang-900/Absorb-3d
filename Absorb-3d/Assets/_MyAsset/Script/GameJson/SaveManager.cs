@@ -39,10 +39,17 @@ public class SaveManager : MonoBehaviour
                 Diamond = 0,
                 SkinId = 0,
                 ListSkinOwned = new List<int>(),
-                MapLevel = 1,
+
                 TalentTreeLevel = 0,
-                IncomeLevel = 0,
-                VacuumLevel = 0
+                TabIncomeLevel = 0,
+                TabVacuumLevel = 0,
+                TabSpeedLevel = 0,
+
+                MapLevel = 1,
+                ScaleRateOnStart = 1,
+                VaccumRateOnStart = 1,
+                IncomeRateOnStart = 1,
+                SpeedRateOnStart = 1
             };
         }
     }
