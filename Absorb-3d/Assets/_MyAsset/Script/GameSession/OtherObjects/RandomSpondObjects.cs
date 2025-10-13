@@ -12,7 +12,7 @@ public class RandomSpawnObjects : MonoBehaviour
     private int countObject = 0; // Đếm số object đã spawn
     private List<Vector3> spawnedPositions = new List<Vector3>(); // Lưu vị trí đã spawn
     private List<GameObject> spawedObjects = new List<GameObject>();
-    private void Start()
+    private void Awake()
     {
         sponeGameObject();
     }

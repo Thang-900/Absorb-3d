@@ -16,14 +16,18 @@ public class DataManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        currentData = saveManager.Load();
+        Debug.Log("🎮 Dữ liệu hiện tại: " + JsonUtility.ToJson(currentData, true));
     }
 
     public SaveManager saveManager;
-    public PlayerData currentData;
-    public void SaveGold(int newGold)
+    public static PlayerData currentData;
+    public void SaveGold()
     {
-        currentData.Gold = newGold;
+        currentData.Gold += GoldBonus.goldBonus;
         saveManager.Save(currentData);
+        Debug.Log("💰 Đã lưu vàng: " + currentData.Gold);
     }
     public void SaveDiamond(int newDiamond)
     {
@@ -35,7 +39,7 @@ public class DataManager : MonoBehaviour
         currentData.SkinId = newSkinId;
         saveManager.Save(currentData);
     }
-    public void SaveListSkinOwned(int newListSkinOwned)
+    public void SaveListSkinOwned(string newListSkinOwned)
     {
         currentData.ListSkinOwned.Add(newListSkinOwned);
         saveManager.Save(currentData);
@@ -87,8 +91,7 @@ public class DataManager : MonoBehaviour
     }
     private void Start()
     {
-        currentData = saveManager.Load();
-        Debug.Log("🎮 Dữ liệu hiện tại: " + JsonUtility.ToJson(currentData, true));
+        
     }
     private void OnApplicationQuit()
     {

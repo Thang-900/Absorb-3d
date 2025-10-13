@@ -4,21 +4,21 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
-    public string PlayerId;
-    public int Gold;
-    public int Diamond;
-    public int SkinId;
-    public List<int> ListSkinOwned;
+    public string PlayerId; // L?u tr? ID ng??i ch?i
+    public int Gold; // L?u tr? s? vàng c?a ng??i ch?i
+    public int Diamond; // L?u tr? s? kim c??ng c?a ng??i ch?i
+    public int SkinId; // L?u tr? ID skin hi?n t?i c?a ng??i ch?i
+    public List<string> ListSkinOwned; // L?u tr? danh sách các skin mà ng??i ch?i s? h?u
 
-    public int MapLevel;
-    public int TalentTreeLevel;
-    public int TabIncomeLevel;
-    public int TabVacuumLevel;
-    public int TabSpeedLevel;
+    public int MapLevel; // L?u tr? c?p ?? b?n ?? hi?n t?i c?a ng??i ch?i
+    public int TalentTreeLevel; // L?u tr? c?p ?? cây tài n?ng hi?n t?i c?a ng??i ch?i
+    public int TabIncomeLevel; // L?u tr? c?p ?? thu nh?p hi?n t?i c?a ng??i ch?i
+    public int TabVacuumLevel; // L?u tr? c?p ?? hút hi?n t?i c?a ng??i ch?i
+    public int TabSpeedLevel; // L?u tr? c?p ?? t?c ?? hi?n t?i c?a ng??i ch?i
 
-    public float ScaleRateOnStart;
-    public float VaccumRateOnStart;
-    public float IncomeRateOnStart;
-    public float SpeedRateOnStart;
+    public float ScaleRateOnStart; // L?u tr? t? l? kích th??c khi b?t ??u
+    public float VaccumRateOnStart; // L?u tr? t? l? hút khi b?t ??u
+    public float IncomeRateOnStart; // L?u tr? t? l? thu nh?p khi b?t ??u
+    public float SpeedRateOnStart; // L?u tr? t? l? t?c ?? khi b?t ??u
 }
 

@@ -38,7 +38,7 @@ public class SaveManager : MonoBehaviour
                 Gold = 0,
                 Diamond = 0,
                 SkinId = 0,
-                ListSkinOwned = new List<int>(),
+                ListSkinOwned = new List<string>(),
 
                 TalentTreeLevel = 0,
                 TabIncomeLevel = 0,
@@ -53,4 +53,17 @@ public class SaveManager : MonoBehaviour
             };
         }
     }
+    public void DeleteSave()
+    {
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+            Debug.Log("🗑️ File lưu đã được xóa: " + path);
+        }
+        else
+        {
+            Debug.Log("⚠️ Không có file nào để xóa tại: " + path);
+        }
+    }
+
 }
