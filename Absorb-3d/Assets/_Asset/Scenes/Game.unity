@@ -4658,10 +4658,10 @@ MonoBehaviour:
   currentLevel: 0
   objectsToSpawn:
   - {fileID: 1531099582292957, guid: 280d6ceb8b5666844bc2dccf412f9368, type: 3}
-  - {fileID: 1273806135728455, guid: 77909c6a9779a1545b1a9e280445a5f8, type: 3}
   - {fileID: 1058818374174724, guid: 3d1983da2b4461447a8c41cfb438c4ed, type: 3}
   - {fileID: 1921857268696193, guid: 4305d169754c71742b9d5d4cba217a2f, type: 3}
   - {fileID: 1745039476245407, guid: f8b2ee15daf84944dbaee70ff2769686, type: 3}
+  - {fileID: 1273806135728455, guid: 77909c6a9779a1545b1a9e280445a5f8, type: 3}
   - {fileID: 1215580657185925, guid: 3b03872477f02f04293dccbc3ddceacf, type: 3}
   - {fileID: 1793535499553172, guid: 7ffb65b9ffe983049abf191b6cf4659d, type: 3}
   - {fileID: 1510282119321978, guid: 86d9144816a1b62459212ed8517c8d6c, type: 3}

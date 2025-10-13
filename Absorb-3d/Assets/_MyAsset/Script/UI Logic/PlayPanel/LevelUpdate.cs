@@ -25,13 +25,13 @@ public class LevelUpdate : MonoBehaviour
         UpdateTextLevel(currentLevel - 1);
     }
 
-    public void OnLevelChange()
-    {
-        level++;
-        SaveLevel();
-        ReText();
-        UpdateTextLevel(PlayerPrefs.GetInt("Level", 0));
-    }
+    //public void OnLevelChange()
+    //{
+    //    level++;
+    //    SaveLevel();
+    //    ReText();
+    //    UpdateTextLevel(PlayerPrefs.GetInt("Level", 0));
+    //}
     public void ReText()
     {
         Debug.Log("ReText");
@@ -43,11 +43,15 @@ public class LevelUpdate : MonoBehaviour
     private void Start()
     {
         ReText();
-        UpdateTextLevel(PlayerPrefs.GetInt("Level", 0));
+        if(DataManager.currentData!=null)
+        {
+            UpdateTextLevel(DataManager.currentData.MapLevel);
+        }
+        else
+        {
+            Debug.Log("khong co DataManager.currentData");
+            UpdateTextLevel(1);
+        }
     }
-    private void SaveLevel()
-    {
-        PlayerPrefs.SetInt("Level", level);
-        PlayerPrefs.Save();
-    }
+   
 }

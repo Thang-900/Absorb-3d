@@ -27,7 +27,8 @@ public class DataManager : MonoBehaviour
     {
         currentData.Gold += GoldBonus.goldBonus;
         saveManager.Save(currentData);
-        Debug.Log("💰 Đã lưu vàng: " + currentData.Gold);
+        Debug.Log("💰 Đã thêm vàng: " + GoldBonus.goldBonus);
+        GoldBonus.goldBonus = 0;
     }
     public void SaveDiamond(int newDiamond)
     {
@@ -44,9 +45,9 @@ public class DataManager : MonoBehaviour
         currentData.ListSkinOwned.Add(newListSkinOwned);
         saveManager.Save(currentData);
     }
-    public void SaveMapLevel(int newMapLevel)
+    public void SaveMapLevel()
     {
-        currentData.MapLevel = newMapLevel;
+        currentData.MapLevel += 1;
         saveManager.Save(currentData);
     }
     public void SaveTalentTreeLevel(int newTalentTreeLevel)

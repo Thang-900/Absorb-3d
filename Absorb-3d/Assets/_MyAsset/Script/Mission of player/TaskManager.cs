@@ -115,6 +115,7 @@ public class TaskManager : MonoBehaviour
     private void ActionTaskCompleted()
     {
         DataManager.instance.SaveGold();
+        DataManager.instance.SaveMapLevel();
         SceneManager.LoadScene("MenuScene");
     }
 
