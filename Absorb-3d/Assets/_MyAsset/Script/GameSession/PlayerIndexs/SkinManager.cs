@@ -14,10 +14,11 @@ public class SkinManager : MonoBehaviour
             listSkinID.Add(skin.name);
         }
     }
-
-    // Update is called once per frame
-    void Update()
+    private void StatusOne()
     {
-        
+        foreach(var skin in listSkins)
+        {
+            skin.transform.Find("tick").gameObject.SetActive(false);
+        }
     }
 }
