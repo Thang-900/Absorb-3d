@@ -37,4 +37,12 @@ public class PanelTransition : MonoBehaviour
     {
         PanelTranslation(5);
     }
+    public void SetActivePanel_6()
+    {
+        PanelTranslation(6);
+    }
+    public void UnActivePanel_6()
+    {
+        Panels[5].SetActive(false);
+    }
 }

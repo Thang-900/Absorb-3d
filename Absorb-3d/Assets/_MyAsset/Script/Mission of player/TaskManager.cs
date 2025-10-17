@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEditor.Profiling.Memory.Experimental;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI; // để dùng ToDictionary
+using UnityEngine.UI;
 
 public class TaskManager : MonoBehaviour
 {
@@ -14,135 +13,151 @@ public class TaskManager : MonoBehaviour
     public Dictionary<string, List<GameObject>> GroupedObjects = new Dictionary<string, List<GameObject>>();
     public Dictionary<string, int> taskFinish = new Dictionary<string, int>();
     public Text taskComment;
+
     private bool tasksAssigned = false;
+    private bool tasksCompleted = false; // ✅ tránh chạy nhiều lần
     private List<string> keysOfTaskNeed = new List<string>();
 
-    //*******************+*********************
+    public PlayerInformationManager playerInfoManager;
+    public DocumentControl documentControl;
+    //public bool needUpdateLevel = false;
+
     private void Start()
     {
-        GroupTask();
-        CreatTaskNeed();
-        CreatTaskFinish();
-        ReleaseTask();
-        tasksAssigned = true; // đánh dấu đã chạy
+        documentControl = FindObjectOfType<DocumentControl>();
+        playerInfoManager = FindObjectOfType<PlayerInformationManager>();
     }
-    private void Update()
+    //private void Start()
+    //{
+    //    playerInfoManager = FindObjectOfType<PlayerInformationManager>();
+    //    documentControl = FindObjectOfType<DocumentControl>();
+
+    //    GroupTask();
+    //    CreateTaskNeed();
+    //    CreateTaskFinish();
+    //    ReleaseTask();
+    //    tasksAssigned = true;
+    //}
+
+    //private void Update()
+    //{
+    //    TaskCompleted();
+    //}
+
+    private void GroupTask()
     {
-        TaskCompleted();
-    }
-    //*******************+*********************
+        GameObject[] currentOBJ = GameObject.FindGameObjectsWithTag("Feed");
 
-
-    private void GroupTask()//1. nhóm các object cùng loại
-    {
-        GameObject[] curentOBJ = GameObject.FindGameObjectsWithTag("Feed");
-
-        // có danh sách các objects feed;
-        foreach (GameObject Objs in curentOBJ)
+        foreach (GameObject obj in currentOBJ)
         {
-            string name = GetCleanName(Objs);
+            string name = GetCleanName(obj);
             if (!GroupedObjects.ContainsKey(name))
-            {
                 GroupedObjects[name] = new List<GameObject>();
-            }
-            GroupedObjects[name].Add(Objs);
+
+            GroupedObjects[name].Add(obj);
         }
     }
 
-    private void CreatTaskNeed()//2. Phân công nhiệm vụ từ các object đã nhóm, số lương: "maxCountOfMission" + lấy các key của need để so sánh với finish
+    private void CreateTaskNeed()
     {
         int count = 0;
         foreach (var groupedObjs in GroupedObjects)
         {
             count++;
-            if (count <= maxCountOfMission && count <= GroupedObjects.Count)
+            if (count <= maxCountOfMission && groupedObjs.Value.Count > 0)
             {
-                int randum = Random.Range(0, groupedObjs.Value.Count - 1);
-                string taskName = groupedObjs.Key;
-                int taskCount = groupedObjs.Value.Count - randum;
-                taskNeeding[taskName] = taskCount;
+                int randIndex = Random.Range(0, groupedObjs.Value.Count);
+                int taskCount = groupedObjs.Value.Count - randIndex;
+                if (taskCount <= 0) taskCount = 1; // ✅ đảm bảo ít nhất 1 task
+                taskNeeding[groupedObjs.Key] = taskCount;
             }
         }
-        foreach (var task in taskNeeding)
-        {
-            keysOfTaskNeed.Add(task.Key);
-        }
+        keysOfTaskNeed = taskNeeding.Keys.ToList();
     }
 
-    //*******************+*********************
-
-
-    public void CreatTaskFinish()//3. Tao dictionary theo dõi tiến độ hoàn thành nhiệm vụ
+    public void CreateTaskFinish()
     {
-        taskFinish = taskNeeding.Keys.ToDictionary(keySelector: k => k, elementSelector: k => 0);
+        taskFinish = taskNeeding.Keys.ToDictionary(k => k, k => 0);
     }
 
-    public void TaskProgress(GameObject absortedObj)// 4.tăng taskFinish lên khi một object bị biến mất
+    public void TaskProgress(GameObject absorbedObj)
     {
-        string taskName = GetCleanName(absortedObj);
+        string taskName = GetCleanName(absorbedObj);
         if (!tasksAssigned || !taskFinish.ContainsKey(taskName))
             return;
         taskFinish[taskName] += 1;
+        ReleaseTask();
     }
-    public void ReleaseTask()//5.hiển thị tiến độ hoàn thành nhiêm vụ
+
+    public void ReleaseTask()
     {
         string comments = "";
         foreach (var task in keysOfTaskNeed)
         {
             if (taskFinish[task] >= taskNeeding[task])
-            {
-                Debug.Log($"hoàn thành nhiệm vụ: {task}");
-            }
+                Debug.Log($"✅ Hoàn thành nhiệm vụ: {task}");
             else
-            {
-                comments += $"{task} cần: {taskNeeding[task]} có: {taskFinish[task]}\n";
-            }
+                comments += $"{task}: cần {taskNeeding[task]}, có {taskFinish[task]}\n";
         }
         taskComment.text = comments;
-
     }
+
     private void TaskCompleted()
     {
+        if (tasksCompleted) return;
+
         foreach (var task in taskNeeding)
         {
             if (taskFinish[task.Key] < taskNeeding[task.Key])
-                return; // Chưa hoàn thành tất cả nhiệm vụ
+                return; // vẫn còn task chưa hoàn thành
         }
+
+        tasksCompleted = true; // ✅ đánh dấu đã hoàn thành
         Debug.Log("🎉 Tất cả nhiệm vụ đã hoàn thành!");
-        ActionTaskCompleted();
-        // Thực hiện hành động khi tất cả nhiệm vụ hoàn thành
+        StartCoroutine(ActionTaskCompleted());
     }
-    private void ActionTaskCompleted()
+    public void Action()
     {
-        DataManager.instance.SaveGold();
-        DataManager.instance.SaveMapLevel();
+        StartCoroutine(ActionTaskCompleted());
+    }
+    private IEnumerator ActionTaskCompleted()
+    {
+        string playerId = playerInfoManager.currentPlayerId;
+        if (string.IsNullOrEmpty(playerId))
+        {
+            Debug.LogError("⚠️ Không có PlayerId, không thể lưu dữ liệu!");
+            yield break;
+        }
+
+        DocumentControl.PlayerData playerData = null;
+        yield return StartCoroutine(documentControl.GetDocumentById(playerId, data =>
+        {
+            playerData = data;
+        }));
+
+        if (playerData == null)
+        {
+            Debug.LogError("❌ Không lấy được dữ liệu player từ server!");
+            yield break;
+        }
+
+        int newLevel = playerData.levelMap + 1;
+        int newGold = GoldBonus.goldBonus + playerData.gold;
+
+        yield return StartCoroutine(documentControl.CreateOrUpdateDocument(
+            playerId, newGold, playerData.diamond, newLevel
+        ));
+
+        GoldBonus.ResetGoldBonus();
         SceneManager.LoadScene("MenuScene");
     }
 
-
-
-
-
-
-    //*******************+*********************
-    public static string GetCleanName(GameObject obj)//1.2. Chuẩn hóa tên object
+    public static string GetCleanName(GameObject obj)
     {
-        // Lấy tên gốc
         string rawName = obj.name;
-
-        // Bỏ chữ "Clone"
         string noClone = rawName.Replace("Clone", "");
-
-        // Bỏ hết số
         string noNumbers = Regex.Replace(noClone, @"\d+", "");
-
-        // Bỏ hết dấu ngoặc ()
         string noBrackets = Regex.Replace(noNumbers, @"[()]", "");
-
-        // Xóa khoảng trắng thừa
         return noBrackets.Trim();
     }
-
-
-
 }
