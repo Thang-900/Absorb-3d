@@ -6,8 +6,12 @@ using UnityEngine.UIElements;
 public class PanelTransition : MonoBehaviour
 {
     public GameObject[] Panels;
+    public GameObject[] Buttons;
     // Start is called before the first frame update
-
+    private void Start()
+    {
+        PanelTranslation(3);
+    }
     // Update is called once per frame
     private void PanelTranslation(int number)
     {
@@ -15,7 +19,19 @@ public class PanelTransition : MonoBehaviour
         {
             panel.SetActive(false);
         }
+        foreach(var button in Buttons)
+        {
+            button.GetComponent<RectTransform>().sizeDelta = new Vector2(148.5103f, 221.1367f); 
+        }
         Panels[number - 1].SetActive(true);
+        SetButtonsSize(Buttons[number - 1]);
+    }
+    private void SetButtonsSize(GameObject button)
+    {
+        if(button!=null)
+        {
+            button.GetComponent<RectTransform>().sizeDelta = new Vector2(198.74f, 221.1367f);
+        }
     }
     public void SetActivePanel_1()
     {

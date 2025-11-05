@@ -1,23 +1,26 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelUpdate : MonoBehaviour
 {
-    public Text[] levelTexts;
+    public TextMeshProUGUI[] levelTexts;
+    public ImagesChangesTransform[] imagesChangesTransforms;
     public PlayerInformationManager playerInfoManager;
-    public int currentLevel = 0;
+    public int currentLevel = 10;
 
     private void Start()
     {
-        if (playerInfoManager == null)
-        {
-            playerInfoManager = FindObjectOfType<PlayerInformationManager>();
-            Debug.Log(playerInfoManager != null ? "✅ playerInfoManager tìm thấy" : "❌ Không tìm thấy playerInfoManager");
-        }
+        UpdateOnScreen(currentLevel);
+        //if (playerInfoManager == null)
+        //{
+        //    playerInfoManager = FindObjectOfType<PlayerInformationManager>();
+        //    Debug.Log(playerInfoManager != null ? "✅ playerInfoManager tìm thấy" : "❌ Không tìm thấy playerInfoManager");
+        //}
 
-        // Khi sẵn sàng, load level hiện tại lên UI
-        StartCoroutine(UpdateLevelUIWhenReady());
+        //// Khi sẵn sàng, load level hiện tại lên UI
+        //StartCoroutine(UpdateLevelUIWhenReady());
     }
 
     private void Update()
@@ -106,7 +109,7 @@ public class LevelUpdate : MonoBehaviour
             }
         }
     }
-
+    //public GameObject[] Images
     // 🔢 Cập nhật hiển thị trên UI
     public void UpdateOnScreen(int level)
     {
@@ -116,11 +119,23 @@ public class LevelUpdate : MonoBehaviour
 
     public void UpdateTextLevel(int level)
     {
-        if (level <= 0) return;
-
-        levelTexts[level % 10].text = level.ToString();
-        if (level % 10 == 0) return;
-        UpdateTextLevel(level - 1);
+        foreach(var transform in imagesChangesTransforms)
+        {
+            imagesChangesTransforms[level % 7 - 1].ImageForm_2();
+        }
+        if (level > 7)
+        {
+            if (level % 7 == 0) return;
+            levelTexts[level % 7 - 1].text = level.ToString();
+            imagesChangesTransforms[level % 7 - 1].ImageForm_1();
+            if ((level - 1) % 7 == 0) return;
+            UpdateTextLevel(level - 1);
+        }
+        else if (level<=7&&level>0)
+        {
+            levelTexts[level - 1].text = level.ToString();
+            UpdateTextLevel(level - 1);
+        }
     }
 
     public void ReText()
