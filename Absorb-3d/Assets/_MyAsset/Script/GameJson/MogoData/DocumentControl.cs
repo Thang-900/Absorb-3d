@@ -113,23 +113,7 @@ public class DocumentControl : MonoBehaviour
         }
     }
 
-    // ⚙️ Cấu trúc dữ liệu hỗ trợ JSON
-    [System.Serializable]
-    public class PlayerData
-    {
-        public string playerId;
-        public int gold;
-        public int diamond;
-        public int levelMap;
-    }
 
-    [System.Serializable]
-    public class TransferData
-    {
-        public string fromPlayerId;
-        public string toPlayerId;
-        public int amount;
-    }
     public IEnumerator GetDocumentById(string playerId, System.Action<PlayerData> onCompleted)
     {
         using (UnityWebRequest www = UnityWebRequest.Get($"{serverUrl}/player/{playerId}"))
@@ -186,6 +170,22 @@ public class DocumentControl : MonoBehaviour
             }
         }
     }
+    // ⚙️ Cấu trúc dữ liệu hỗ trợ JSON
+    [System.Serializable]
+    public class PlayerData
+    {
+        public string playerId;
+        public int gold;
+        public int diamond;
+        public int levelMap;
+    }
 
+    [System.Serializable]
+    public class TransferData
+    {
+        public string fromPlayerId;
+        public string toPlayerId;
+        public int amount;
+    }
 
 }
