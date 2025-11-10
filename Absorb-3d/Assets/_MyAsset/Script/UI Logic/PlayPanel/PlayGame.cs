@@ -8,6 +8,10 @@ public class PlayGame : MonoBehaviour
 {
     public void Play()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("GameScene");
+    }
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainScene"); 
     }
 }

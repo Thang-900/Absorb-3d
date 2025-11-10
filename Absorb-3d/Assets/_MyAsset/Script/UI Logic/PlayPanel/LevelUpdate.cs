@@ -119,10 +119,7 @@ public class LevelUpdate : MonoBehaviour
 
     public void UpdateTextLevel(int level)
     {
-        foreach(var transform in imagesChangesTransforms)
-        {
-            imagesChangesTransforms[level % 7 - 1].ImageForm_2();
-        }
+        
         if (level > 7)
         {
             if (level % 7 == 0) return;
@@ -134,6 +131,7 @@ public class LevelUpdate : MonoBehaviour
         else if (level<=7&&level>0)
         {
             levelTexts[level - 1].text = level.ToString();
+            imagesChangesTransforms[level - 1].ImageForm_1();
             UpdateTextLevel(level - 1);
         }
     }
@@ -142,5 +140,9 @@ public class LevelUpdate : MonoBehaviour
     {
         foreach (var text in levelTexts)
             text.text = "";
+        foreach (var transform in imagesChangesTransforms)
+        {
+            transform.ImageForm_2();
+        }
     }
 }

@@ -102,5 +102,9 @@ public class DataManager : MonoBehaviour
     {
         if (pause) saveManager.Save(currentData);
     }
-
+    public void ResetData()
+    {
+        currentData = saveManager.ResetDatamanager();
+        saveManager.Save(currentData);
+    }
 }

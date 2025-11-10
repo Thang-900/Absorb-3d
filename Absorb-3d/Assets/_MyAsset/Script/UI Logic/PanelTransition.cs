@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
+//using UnityEngine.UIElements;
 
 public class PanelTransition : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class PanelTransition : MonoBehaviour
     private void Start()
     {
         PanelTranslation(3);
+        Buttons[3 - 1].GetComponent<Button>().Select();
     }
     // Update is called once per frame
     private void PanelTranslation(int number)
@@ -25,6 +28,7 @@ public class PanelTransition : MonoBehaviour
         }
         Panels[number - 1].SetActive(true);
         SetButtonsSize(Buttons[number - 1]);
+
     }
     private void SetButtonsSize(GameObject button)
     {

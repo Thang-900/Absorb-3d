@@ -5,7 +5,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
 public class TaskManager : MonoBehaviour
 {
     public int maxCountOfMission;
@@ -13,36 +12,36 @@ public class TaskManager : MonoBehaviour
     public Dictionary<string, List<GameObject>> GroupedObjects = new Dictionary<string, List<GameObject>>();
     public Dictionary<string, int> taskFinish = new Dictionary<string, int>();
     public Text taskComment;
-
+    public DataManager dataManager;
     private bool tasksAssigned = false;
     private bool tasksCompleted = false; // ✅ tránh chạy nhiều lần
     private List<string> keysOfTaskNeed = new List<string>();
 
-    public PlayerInformationManager playerInfoManager;
-    public DocumentControl documentControl;
+    //public PlayerInformationManager playerInfoManager;
+    //public DocumentControl documentControl;
     //public bool needUpdateLevel = false;
 
-    private void Start()
-    {
-        documentControl = FindObjectOfType<DocumentControl>();
-        playerInfoManager = FindObjectOfType<PlayerInformationManager>();
-    }
     //private void Start()
     //{
-    //    playerInfoManager = FindObjectOfType<PlayerInformationManager>();
     //    documentControl = FindObjectOfType<DocumentControl>();
-
-    //    GroupTask();
-    //    CreateTaskNeed();
-    //    CreateTaskFinish();
-    //    ReleaseTask();
-    //    tasksAssigned = true;
+    //    playerInfoManager = FindObjectOfType<PlayerInformationManager>();
     //}
+    private void Start()
+    {
+        //playerInfoManager = FindObjectOfType<PlayerInformationManager>();
+        //documentControl = FindObjectOfType<DocumentControl>();
+        dataManager = FindObjectOfType<DataManager>();
+        GroupTask();
+        CreateTaskNeed();
+        CreateTaskFinish();
+        ReleaseTask();
+        tasksAssigned = true;
+    }
 
-    //private void Update()
-    //{
-    //    TaskCompleted();
-    //}
+    private void Update()
+    {
+        TaskCompleted();
+    }
 
     private void GroupTask()
     {
@@ -113,45 +112,11 @@ public class TaskManager : MonoBehaviour
         }
 
         tasksCompleted = true; // ✅ đánh dấu đã hoàn thành
+        dataManager.SaveGold();
         Debug.Log("🎉 Tất cả nhiệm vụ đã hoàn thành!");
-        StartCoroutine(ActionTaskCompleted());
+        SceneManager.LoadScene("MainScene");
     }
-    public void Action()
-    {
-        StartCoroutine(ActionTaskCompleted());
-    }
-    private IEnumerator ActionTaskCompleted()
-    {
-        string playerId = playerInfoManager.currentPlayerId;
-        if (string.IsNullOrEmpty(playerId))
-        {
-            Debug.LogError("⚠️ Không có PlayerId, không thể lưu dữ liệu!");
-            yield break;
-        }
-
-        DocumentControl.PlayerData playerData = null;
-        yield return StartCoroutine(documentControl.GetDocumentById(playerId, data =>
-        {
-            playerData = data;
-        }));
-
-        if (playerData == null)
-        {
-            Debug.LogError("❌ Không lấy được dữ liệu player từ server!");
-            yield break;
-        }
-
-        int newLevel = playerData.levelMap + 1;
-        int newGold = GoldBonus.goldBonus + playerData.gold;
-
-        yield return StartCoroutine(documentControl.CreateOrUpdateDocument(
-            playerId, newGold, playerData.diamond, newLevel
-        ));
-
-        GoldBonus.ResetGoldBonus();
-        SceneManager.LoadScene("MenuScene");
-    }
-
+    
     public static string GetCleanName(GameObject obj)
     {
         string rawName = obj.name;

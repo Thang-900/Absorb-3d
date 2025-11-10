@@ -23,9 +23,8 @@ public class GoldBonus : MonoBehaviour
         {
             currentPlayerId = PlayerPrefs.GetString("CurrentPlayerId", "");
         }
-
-        ShowGoldBonus();
         goldBonus = 0;
+        ShowGoldBonus();
     }
 
     public static void AddGoldBonus(int goldAdded)
@@ -53,36 +52,35 @@ public class GoldBonus : MonoBehaviour
             instance.ShowGoldBonus();
         }
     }
+    //// --- Hàm cập nhật vàng lên MongoDB ---
+    //public void SaveGoldToMongo()
+    //{
+    //    if (string.IsNullOrEmpty(currentPlayerId))
+    //    {
+    //        Debug.LogError("❌ Không có PlayerId để lưu vàng!");
+    //        return;
+    //    }
 
-    // --- Hàm cập nhật vàng lên MongoDB ---
-    public void SaveGoldToMongo()
-    {
-        if (string.IsNullOrEmpty(currentPlayerId))
-        {
-            Debug.LogError("❌ Không có PlayerId để lưu vàng!");
-            return;
-        }
+    //    StartCoroutine(UpdateGoldCoroutine());
+    //}
 
-        StartCoroutine(UpdateGoldCoroutine());
-    }
+    //private IEnumerator UpdateGoldCoroutine()
+    //{
+    //    int totalGold = 0;
 
-    private IEnumerator UpdateGoldCoroutine()
-    {
-        int totalGold = 0;
+    //    // Bước 1: Lấy dữ liệu hiện tại của người chơi
+    //    yield return StartCoroutine(documentControl.GetDocumentById(currentPlayerId, (playerData) =>
+    //    {
+    //        if (playerData != null)
+    //        {
+    //            totalGold = playerData.gold + goldBonus;
+    //        }
+    //    }));
 
-        // Bước 1: Lấy dữ liệu hiện tại của người chơi
-        yield return StartCoroutine(documentControl.GetDocumentById(currentPlayerId, (playerData) =>
-        {
-            if (playerData != null)
-            {
-                totalGold = playerData.gold + goldBonus;
-            }
-        }));
+    //    // Bước 2: Cập nhật dữ liệu mới lên Mongo
+    //    yield return StartCoroutine(documentControl.UpdateGold(currentPlayerId, totalGold));
 
-        // Bước 2: Cập nhật dữ liệu mới lên Mongo
-        yield return StartCoroutine(documentControl.UpdateGold(currentPlayerId, totalGold));
-
-        Debug.Log($"✅ Đã cộng {goldBonus} vàng, tổng mới: {totalGold}");
-        ResetGoldBonus();
-    }
+    //    Debug.Log($"✅ Đã cộng {goldBonus} vàng, tổng mới: {totalGold}");
+    //    ResetGoldBonus();
+    //}
 }

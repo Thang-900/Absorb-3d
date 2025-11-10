@@ -5,7 +5,6 @@ using UnityEngine;
 public class SaveManager : MonoBehaviour
 {
     private string path;
-
     private void Awake()
     {
         path = Application.persistentDataPath + "/playerData.json";
@@ -53,17 +52,28 @@ public class SaveManager : MonoBehaviour
             };
         }
     }
-    public void DeleteSave()
+    public PlayerData ResetDatamanager()
     {
-        if (File.Exists(path))
+        Debug.Log("Tạo mới dữ liệu mặc định.");
+        return new PlayerData
         {
-            File.Delete(path);
-            Debug.Log("🗑️ File lưu đã được xóa: " + path);
-        }
-        else
-        {
-            Debug.Log("⚠️ Không có file nào để xóa tại: " + path);
-        }
+            PlayerId = "0001",
+            Gold = 0,
+            Diamond = 0,
+            SkinId = 0,
+            ListSkinOwned = new List<string>(),
+
+            TalentTreeLevel = 0,
+            TabIncomeLevel = 0,
+            TabVacuumLevel = 0,
+            TabSpeedLevel = 0,
+
+            MapLevel = 1,
+            ScaleRateOnStart = 1,
+            VaccumRateOnStart = 1,
+            IncomeRateOnStart = 1,
+            SpeedRateOnStart = 1
+        };
     }
 
 }
