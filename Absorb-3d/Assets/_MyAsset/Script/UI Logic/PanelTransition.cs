@@ -10,7 +10,7 @@ public class PanelTransition : MonoBehaviour
     public GameObject[] Panels;
     public GameObject[] Buttons;
     // Start is called before the first frame update
-    private void Start()
+    private void OnEnable()
     {
         PanelTranslation(3);
         Buttons[3 - 1].GetComponent<Button>().Select();

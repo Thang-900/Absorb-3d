@@ -1,42 +1,72 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
 public class TaskManager : MonoBehaviour
 {
     public int maxCountOfMission;
     public Dictionary<string, int> taskNeeding = new Dictionary<string, int>();
     public Dictionary<string, List<GameObject>> GroupedObjects = new Dictionary<string, List<GameObject>>();
     public Dictionary<string, int> taskFinish = new Dictionary<string, int>();
+
     public Text taskComment;
     public DataManager dataManager;
     private bool tasksAssigned = false;
-    private bool tasksCompleted = false; // ✅ tránh chạy nhiều lần
+    private bool tasksCompleted = false;
     private List<string> keysOfTaskNeed = new List<string>();
+    private SetTopic setTopic;
 
-    //public PlayerInformationManager playerInfoManager;
-    //public DocumentControl documentControl;
-    //public bool needUpdateLevel = false;
-
-    //private void Start()
-    //{
-    //    documentControl = FindObjectOfType<DocumentControl>();
-    //    playerInfoManager = FindObjectOfType<PlayerInformationManager>();
-    //}
-    private void Start()
+    // ==========================
+    // 🔥 CHẠY MỖI KHI OBJECT ACTIVE
+    // ==========================
+    private void OnEnable()
     {
-        //playerInfoManager = FindObjectOfType<PlayerInformationManager>();
-        //documentControl = FindObjectOfType<DocumentControl>();
+        ResetData();         // clear dữ liệu cũ
+        InitializeTasks();   // chạy lại logic như Start()
+    }
+
+    // ==========================
+    // 🔥 CHẠY MỖI KHI OBJECT BỊ TẮT (SetActive(false))
+    // ==========================
+    private void OnDisable()
+    {
+        ResetData();
+    }
+
+
+    // ==========================
+    // Tách thành hàm riêng để tái sử dụng
+    // ==========================
+    private void InitializeTasks()
+    {
         dataManager = FindObjectOfType<DataManager>();
+        setTopic = FindObjectOfType<SetTopic>();
+
         GroupTask();
         CreateTaskNeed();
         CreateTaskFinish();
         ReleaseTask();
+
         tasksAssigned = true;
+        tasksCompleted = false;
     }
+
+    private void ResetData()
+    {
+        taskNeeding.Clear();
+        GroupedObjects.Clear();
+        taskFinish.Clear();
+        keysOfTaskNeed.Clear();
+        tasksAssigned = false;
+        tasksCompleted = false;
+
+        if (taskComment != null)
+            taskComment.text = "";
+    }
+
+
 
     private void Update()
     {
@@ -67,7 +97,7 @@ public class TaskManager : MonoBehaviour
             {
                 int randIndex = Random.Range(0, groupedObjs.Value.Count);
                 int taskCount = groupedObjs.Value.Count - randIndex;
-                if (taskCount <= 0) taskCount = 1; // ✅ đảm bảo ít nhất 1 task
+                if (taskCount <= 0) taskCount = 1;
                 taskNeeding[groupedObjs.Key] = taskCount;
             }
         }
@@ -84,6 +114,7 @@ public class TaskManager : MonoBehaviour
         string taskName = GetCleanName(absorbedObj);
         if (!tasksAssigned || !taskFinish.ContainsKey(taskName))
             return;
+
         taskFinish[taskName] += 1;
         ReleaseTask();
     }
@@ -98,7 +129,9 @@ public class TaskManager : MonoBehaviour
             else
                 comments += $"{task}: cần {taskNeeding[task]}, có {taskFinish[task]}\n";
         }
-        taskComment.text = comments;
+
+        if (taskComment != null)
+            taskComment.text = comments;
     }
 
     private void TaskCompleted()
@@ -108,15 +141,16 @@ public class TaskManager : MonoBehaviour
         foreach (var task in taskNeeding)
         {
             if (taskFinish[task.Key] < taskNeeding[task.Key])
-                return; // vẫn còn task chưa hoàn thành
+                return;
         }
 
-        tasksCompleted = true; // ✅ đánh dấu đã hoàn thành
+        tasksCompleted = true;
+
         dataManager.SaveGold();
         Debug.Log("🎉 Tất cả nhiệm vụ đã hoàn thành!");
-        SceneManager.LoadScene("MainScene");
+        setTopic.SetTopicToMainMenu();
     }
-    
+
     public static string GetCleanName(GameObject obj)
     {
         string rawName = obj.name;

@@ -8,14 +8,15 @@ public class MainMoneyShow : MonoBehaviour
 {
     private int mainMoney;
     public Text mainMoneyText;
-    
+
     // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         ShowInJson();
     }
+    
 
-    void ShowInJson()
+    public void ShowInJson()
     {
         if (DataManager.currentData == null)
         {

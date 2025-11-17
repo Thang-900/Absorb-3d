@@ -5,7 +5,7 @@ public class PlayerMoveRotation : MonoBehaviour
     private Vector3 lastPosition;
     private Vector3 moveDirection;
 
-    void Start()
+    private void OnEnable()
     {
         lastPosition = transform.position;
     }

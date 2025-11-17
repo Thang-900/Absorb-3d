@@ -8,15 +8,15 @@ public class GoldBonus : MonoBehaviour
     public static int goldBonus = 0;
 
     public Text TextGoldBonus;
-    public DocumentControl documentControl; // Tham chiếu đến DocumentControl
+    //public DocumentControl documentControl; // Tham chiếu đến DocumentControl
     public string currentPlayerId;          // ID người chơi hiện tại (nên gán từ DataManager hoặc PlayerInformationManager)
 
-    private void Awake()
+    private void Awake()//if not enable do it still work?
     {
         instance = this;
     }
 
-    private void Start()
+    private void OnEnable()
     {
         // Lấy ID hiện tại nếu có trong DataManager hoặc PlayerPrefs
         if (string.IsNullOrEmpty(currentPlayerId))

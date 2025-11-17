@@ -11,8 +11,13 @@ public class LevelUp : MonoBehaviour
     public GameObject showExperienceRate;
     public GameObject maxExperienceRate;
     private SetBonusText sponeLevelUpText;
-    private void Start()
+    
+    private void OnEnable()
     {
+        currentLevel = 1;
+        currentExperience = 0f;
+        experienceToNextLevel = 1000f;
+        gameObject.transform.localScale= Vector3.one;
         GainExperience(0);
         sponeLevelUpText = GameObject.Find("SetBonusText").GetComponent<SetBonusText>();
     }

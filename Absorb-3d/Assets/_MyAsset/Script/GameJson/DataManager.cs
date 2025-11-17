@@ -1,16 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(SaveManager))]
 public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
+    public SaveManager saveManager;
+    [SerializeField]
+    public static PlayerData currentData;
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -18,17 +21,18 @@ public class DataManager : MonoBehaviour
         }
 
         currentData = saveManager.Load();
-        Debug.Log("🎮 Dữ liệu hiện tại: " + JsonUtility.ToJson(currentData, true));
+        if(currentData == null)
+        {
+            Debug.Log("🎮 Dữ liệu khong hiện tại: " + JsonUtility.ToJson(currentData, true));
+        }
     }
 
-    public SaveManager saveManager;
-    public static PlayerData currentData;
     public void SaveGold()
     {
         currentData.Gold += GoldBonus.goldBonus;
         saveManager.Save(currentData);
         Debug.Log("💰 Đã thêm vàng: " + GoldBonus.goldBonus);
-        GoldBonus.goldBonus = 0;
+        GoldBonus.ResetGoldBonus();
     }
     public void SaveDiamond(int newDiamond)
     {
@@ -70,29 +74,25 @@ public class DataManager : MonoBehaviour
         currentData.TabSpeedLevel = newTabSpeedLevel;
         saveManager.Save(currentData);
     }
-    public void SaveScaleRateOnStart(float newScaleRateOnStart)
+    public void Add_SaveScaleRateOnStart()
     {
-        currentData.ScaleRateOnStart = newScaleRateOnStart;
+        currentData.ScaleRateOnStart += 0.1f;
         saveManager.Save(currentData);
     }
-    public void SaveVaccumRateOnStart(float newVaccumRateOnStart)
+    public void Add_SaveVaccumRateOnStart()
     {
-        currentData.VaccumRateOnStart = newVaccumRateOnStart;
+        currentData.VaccumRateOnStart += 0.1f;
         saveManager.Save(currentData);
     }
-    public void SaveIncomeRateOnStart(float newIncomeRateOnStart)
+    public void Add_SaveIncomeRateOnStart()
     {
-        currentData.IncomeRateOnStart = newIncomeRateOnStart;
+        currentData.IncomeRateOnStart += 0.1f;
         saveManager.Save(currentData);
     }
-    public void SaveSpeedRateOnStart(float newSpeedRateOnStart)
+    public void Add_SaveSpeedRateOnStart()
     {
-        currentData.SpeedRateOnStart = newSpeedRateOnStart;
+        currentData.SpeedRateOnStart += 0.1f;
         saveManager.Save(currentData);
-    }
-    private void Start()
-    {
-        
     }
     private void OnApplicationQuit()
     {
