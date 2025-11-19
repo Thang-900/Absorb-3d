@@ -172,19 +172,23 @@ public class SponeTab : MonoBehaviour
 
         foreach (var hit in results)
         {
+            // Trúng button spawn
             if (hit.gameObject.GetComponent<ClickToSponeTab>() != null)
-            {
-                return true; // ❗ click đúng vào một button có script
-            }
-            // nếu click vào prefab UI cũng coi là click vào UI -> không clear
-            if (hit.gameObject.GetComponent<PayTalentTree>() != null || hit.gameObject.GetComponentInParent<PayTalentTree>() != null)
-            {
                 return true;
-            }
+
+            // Trúng prefab UI
+            if (hit.gameObject.GetComponent<PayTalentTree>() != null ||
+                hit.gameObject.GetComponentInParent<PayTalentTree>() != null)
+                return true;
+
+            // Trúng bất kỳ UI nào thuộc Canvas chứa prefab
+            if (hit.gameObject.transform.IsChildOf(prefabParent))
+                return true;
         }
 
         return false;
     }
+
 
     private IEnumerator DelayedClear()
     {

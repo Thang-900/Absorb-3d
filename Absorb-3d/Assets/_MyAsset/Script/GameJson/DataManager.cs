@@ -21,12 +21,15 @@ public class DataManager : MonoBehaviour
         }
 
         currentData = saveManager.Load();
-        if(currentData == null)
+        if (currentData == null)
         {
             Debug.Log("🎮 Dữ liệu khong hiện tại: " + JsonUtility.ToJson(currentData, true));
         }
     }
-
+    public static void SaveAll()
+    {
+        instance.saveManager.Save(currentData);
+    }
     public void SaveGold()
     {
         currentData.Gold += GoldBonus.goldBonus;
