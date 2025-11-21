@@ -24,7 +24,7 @@ public class PanelTransition : MonoBehaviour
         }
         foreach(var button in Buttons)
         {
-            button.GetComponent<RectTransform>().sizeDelta = new Vector2(148.5103f, 221.1367f); 
+            button.GetComponent<RectTransform>().sizeDelta = new Vector2(150, 270); 
         }
         Panels[number - 1].SetActive(true);
         SetButtonsSize(Buttons[number - 1]);
@@ -34,7 +34,7 @@ public class PanelTransition : MonoBehaviour
     {
         if(button!=null)
         {
-            button.GetComponent<RectTransform>().sizeDelta = new Vector2(198.74f, 221.1367f);
+            button.GetComponent<RectTransform>().sizeDelta = new Vector2(195, 270);
         }
     }
     public void SetActivePanel_1()
