@@ -42,11 +42,6 @@ public class DataManager : MonoBehaviour
         currentData.Diamond = newDiamond;
         saveManager.Save(currentData);
     }
-    public void SaveSkinId(int newSkinId)
-    {
-        currentData.SkinId = newSkinId;
-        saveManager.Save(currentData);
-    }
     public void SaveListSkinOwned(string newListSkinOwned)
     {
         currentData.ListSkinOwned.Add(newListSkinOwned);
@@ -84,7 +79,7 @@ public class DataManager : MonoBehaviour
     }
     public void Add_SaveVaccumRateOnStart()
     {
-        currentData.VaccumRateOnStart += 0.1f;
+        currentData.VacuumRateOnStart += 0.1f;
         saveManager.Save(currentData);
     }
     public void Add_SaveIncomeRateOnStart()

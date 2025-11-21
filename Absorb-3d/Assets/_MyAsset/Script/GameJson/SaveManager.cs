@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿// phai set skin owned ban dau 
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 public class SaveManager : MonoBehaviour
@@ -59,9 +60,11 @@ public class SaveManager : MonoBehaviour
         {
             PlayerId = "0001",
             Gold = 0,
-            Diamond = 0,
-            SkinId = 0,
-            ListSkinOwned = new List<string>(),
+            Diamond = 5,
+
+            // ➜ THÊM SKIN MẶC ĐỊNH TẠI ĐÂY
+            ListSkinOwned = new List<string>() { "1" },
+            SelectedSkin = "1",
 
             TalentTreeLevel = 1,
             TabIncomeLevel = 1,
@@ -70,11 +73,12 @@ public class SaveManager : MonoBehaviour
 
             MapLevel = 1,
             ScaleRateOnStart = 1,
-            VaccumRateOnStart = 1,
+            VacuumRateOnStart = 1,
             IncomeRateOnStart = 1,
             SpeedRateOnStart = 1,
 
             talentBought = new List<string>()
         };
     }
+
 }

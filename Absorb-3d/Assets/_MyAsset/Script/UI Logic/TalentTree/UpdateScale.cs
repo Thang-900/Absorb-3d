@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +7,15 @@ public class UpdateScale : MonoBehaviour
     public Image imgs;
     private RectTransform rt;
 
-    // Các biến tùy chỉnh
     public float increasePerLevel = 265f;
     public float scaleSpeed = 300f;
+
     public RectTransform content;
     public float contentMoveAmount = 200f;
     public float contentMoveSpeed = 500f;
+
+    // UI blocker để ngăn người chơi tương tác
+    public GameObject screenBlocker;
 
     private void OnEnable()
     {
@@ -22,30 +24,42 @@ public class UpdateScale : MonoBehaviour
             Debug.LogWarning("UpdateScale: imgs chưa gán!");
             return;
         }
-
+        screenBlocker.SetActive(false); // Mo Khóa tương tác lúc bắt đầu
         rt = imgs.GetComponent<RectTransform>();
-
-        // Áp trạng thái hiện tại (false = áp dụng update)
         SetTalentTreeLevelDirect(false);
     }
 
-    // Tăng theo level (level là level tổng – không cộng dồn)
     public void UpTalentTree(int level)
     {
         if (level == 16) level = 20;
 
+        // 🔒 Khóa tương tác
+        LockScreen(true);
+
         float targetHeight = level * increasePerLevel;
-        StartCoroutine(SmoothIncreaseHeight(targetHeight));
-
         float targetContentY = -level * contentMoveAmount;
-        StartCoroutine(SmoothMoveContent(targetContentY));
 
-        Debug.Log("UpTalentTree -> Level: " + level +
-                  ", TargetHeight: " + targetHeight +
-                  ", ContentY: " + targetContentY);
+        StartCoroutine(SmoothUpdateAll(targetHeight, targetContentY));
     }
 
-    IEnumerator SmoothIncreaseHeight(float target)
+    IEnumerator SmoothUpdateAll(float targetHeight, float targetContentY)
+    {
+        bool heightDone = false;
+        bool contentDone = false;
+
+        // chạy song song 2 coroutine
+        StartCoroutine(SmoothIncreaseHeight(targetHeight, () => heightDone = true));
+        StartCoroutine(SmoothMoveContent(targetContentY, () => contentDone = true));
+
+        // chờ cả hai cùng xong
+        while (!heightDone || !contentDone)
+            yield return null;
+
+        // 🔓 Mở lại tương tác
+        LockScreen(false);
+    }
+
+    IEnumerator SmoothIncreaseHeight(float target, System.Action onDone)
     {
         while (Mathf.Abs(rt.sizeDelta.y - target) > 0.1f)
         {
@@ -53,9 +67,10 @@ public class UpdateScale : MonoBehaviour
             rt.sizeDelta = new Vector2(rt.sizeDelta.x, newY);
             yield return null;
         }
+        onDone?.Invoke();
     }
 
-    IEnumerator SmoothMoveContent(float targetY)
+    IEnumerator SmoothMoveContent(float targetY, System.Action onDone)
     {
         while (Mathf.Abs(content.anchoredPosition.y - targetY) > 0.1f)
         {
@@ -63,10 +78,9 @@ public class UpdateScale : MonoBehaviour
             content.anchoredPosition = new Vector2(content.anchoredPosition.x, newY);
             yield return null;
         }
+        onDone?.Invoke();
     }
 
-    // Set trực tiếp từ level (khi OnEnable hoặc khi cần set theo data)
-    // notUpscale == true -> không apply (giữ nguyên)
     public void SetTalentTreeLevelDirect(bool notUpscale)
     {
         if (notUpscale)
@@ -74,7 +88,7 @@ public class UpdateScale : MonoBehaviour
 
         if (DataManager.currentData == null)
         {
-            Debug.LogWarning("UpdateScale: DataManager.currentData null");
+            Debug.LogWarning("UpdateScale: Data null");
             return;
         }
 
@@ -86,9 +100,14 @@ public class UpdateScale : MonoBehaviour
 
         float targetContentY = -level * contentMoveAmount;
         content.anchoredPosition = new Vector2(content.anchoredPosition.x, targetContentY);
+    }
 
-        Debug.Log("SetTalentTreeLevelDirect -> Level: " + level +
-                  ", Height: " + targetHeight +
-                  ", ContentY: " + targetContentY);
+    // 🔒 / 🔓 toggle tương tác UI
+    private void LockScreen(bool state)
+    {
+        if (screenBlocker != null)
+        {
+            screenBlocker.SetActive(state);
+        }
     }
 }

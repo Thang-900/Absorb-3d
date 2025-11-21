@@ -45,7 +45,30 @@ public class SponeTab : MonoBehaviour
     private void OnEnable()
     {
         EditButton();
+
+        // FIX 1: Cho EventSystem 1 frame để rebuild lại raycast data
+        StartCoroutine(DelayReactivateRaycast());
+
+        // FIX 2: Reset clear-state để tránh trạng thái cũ gây lỗi
+        isClearing = false;
+        ignoreClearUntil = Time.time + 0.15f;
     }
+    private IEnumerator DelayReactivateRaycast()
+    {
+        yield return null; // chờ 1 frame
+
+        // Force EventSystem hoạt động ổn định lại
+        EventSystem.current.RaycastAll(
+            new PointerEventData(EventSystem.current),
+            new List<RaycastResult>()
+        );
+    }
+    private void OnDisable()
+    {
+        ClearAllSpawnedPrefabs();
+        isClearing = false;
+    }
+
     /// <summary>
     /// Hiển thị prefab dựa trên button với parent tùy chọn
     /// </summary>
