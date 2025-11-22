@@ -2,25 +2,34 @@
 
 public class PlayerMoveRotation : MonoBehaviour
 {
-    private Vector3 lastPosition;
+    [Header("Joystick")]
+    public Joystick joystick;          // Kéo Joystick vào đây trong Inspector
+
+    [Header("Move Settings")]
+    public float moveSpeed = 5f;       // Tốc độ di chuyển
+
     private Vector3 moveDirection;
-
-    private void OnEnable()
+    //private void Start()
+    //{
+    //    transform.position = new Vector3(-186.76f, -332.75f, 4.62f);
+    //}
+    void Update()
     {
-        lastPosition = transform.position;
-    }
+        float h = joystick.Horizontal;
+        float v = joystick.Vertical;
 
-    void LateUpdate()
-    {
-        Vector3 currentPosition = transform.position;
-        Vector3 delta = currentPosition - lastPosition;
-        delta.y = 0; // Chỉ xét chuyển động trên mặt đất
-        if (delta.magnitude > 0.01f)
+        // Giữ đúng hướng nhưng chuẩn hóa vector để tốc độ chéo không nhanh hơn
+        moveDirection = new Vector3(h, 0, v);
+
+        if (moveDirection.sqrMagnitude > 0.01f)
         {
-            moveDirection = delta.normalized;
-            // Quay object theo hướng di chuyển
-            transform.rotation = Quaternion.LookRotation(moveDirection);
+            // Di chuyển (đã normalized)
+            transform.position += moveDirection.normalized * moveSpeed * Time.deltaTime;
+
+            // Quay theo hướng
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection.normalized);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.2f);
         }
-        lastPosition = currentPosition;
     }
+
 }

@@ -35,11 +35,22 @@ public class UpgradeButton : MonoBehaviour
         if (currentMoney < price)
         {
             NotEnoughMoney();
-            AdsManager.Instance.ShowRewarded(DoUpgrade);
+
+            if (AdsManager.Instance.rewardedReady)
+            {
+                AdsManager.Instance.ShowRewarded(DoUpgrade);
+            }
+            else
+            {
+                Debug.Log("Rewarded NOT READY YET");
+            }
             return;
         }
+
         // Đủ tiền → upgrade
         DoUpgrade();
+        SetOnStart();
+        Check();
     }
     public void Check()
     {
@@ -63,7 +74,11 @@ public class UpgradeButton : MonoBehaviour
     private void DoUpgrade()
     {
         // Trừ tiền
-        DataManager.currentData.Gold -= price;
+        if(DataManager.currentData.Gold>price)
+        {
+            DataManager.currentData.Gold -= price;
+        }
+        
         if (isSpeedUpgrade)
         {
             DataManager.currentData.TabIncomeLevel += 1;

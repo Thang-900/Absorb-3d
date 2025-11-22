@@ -10,6 +10,10 @@ public class AdsManager : MonoBehaviour,
     public static AdsManager Instance;
 
     private Action onRewardEarned;
+    public bool rewardedReady;
+    public bool interstitialReady;
+
+   
 
 #if UNITY_ANDROID
     private string gameId = "5987217";
@@ -30,9 +34,8 @@ public class AdsManager : MonoBehaviour,
         }
 
         // Initialize với testMode = false (Dashboard sẽ điều khiển test)
-        Advertisement.Initialize(gameId, false, this);
+        Advertisement.Initialize(gameId, true, this);
     }
-
     // ================== LOAD ==================
     private void LoadInterstitial()
     {
@@ -78,7 +81,11 @@ public class AdsManager : MonoBehaviour,
 
     public void OnUnityAdsAdLoaded(string placementId)
     {
-        Debug.Log($"AD LOADED: {placementId}");
+        if (placementId == rewardedId)
+            rewardedReady = true;
+
+        if (placementId == interstitialId)
+            interstitialReady = true;
     }
 
     public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)

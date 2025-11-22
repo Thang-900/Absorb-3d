@@ -1,25 +1,30 @@
-
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-    public float speed;
-    private float horizontal;
-    private float vertical;
+    public float speed = 5f;
+    public Joystick joystick;   // Gán joystick vào đây
+
     private Rigidbody rb;
-    // Update is called once per frame
+    private Vector3 moveDirection;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
-    void Update()
+
+    private void Update()
     {
-        horizontal= Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+        // Lấy input từ Joystick
+        float h = joystick.Horizontal;
+        float v = joystick.Vertical;
+
+        moveDirection = new Vector3(h, 0, v).normalized;
     }
+
     private void FixedUpdate()
     {
-        Vector3 movement = new Vector3(horizontal, 0, vertical).normalized * speed * Time.fixedDeltaTime;
-        rb.MovePosition(transform.position + movement);
+        // Di chuyển bằng Rigidbody
+        rb.MovePosition(rb.position + moveDirection * speed * Time.fixedDeltaTime);
     }
 }
