@@ -13,6 +13,7 @@ public class PlayerMoveRotation : MonoBehaviour
     //{
     //    transform.position = new Vector3(-186.76f, -332.75f, 4.62f);
     //}
+    
     void Update()
     {
         float h = joystick.Horizontal;

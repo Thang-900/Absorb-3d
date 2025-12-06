@@ -3,7 +3,7 @@
 public class Move : MonoBehaviour
 {
     public float speed = 5f;
-    public Joystick joystick;   // Gán joystick vào đây
+    public Joystick joystick;
 
     private Rigidbody rb;
     private Vector3 moveDirection;
@@ -15,16 +15,18 @@ public class Move : MonoBehaviour
 
     private void Update()
     {
-        // Lấy input từ Joystick
-        float h = joystick.Horizontal;
-        float v = joystick.Vertical;
+        if (!joystick.isActiveAndEnabled)
+        {
+            moveDirection = Vector3.zero;
+            joystick.ForceStop();
+            return;
+        }
 
-        moveDirection = new Vector3(h, 0, v).normalized;
+        moveDirection = new Vector3(joystick.Horizontal, 0, joystick.Vertical);
     }
 
     private void FixedUpdate()
     {
-        // Di chuyển bằng Rigidbody
         rb.MovePosition(rb.position + moveDirection * speed * Time.fixedDeltaTime);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+//having ads
 public class UpgradeButton : MonoBehaviour
 {
     public RectTransform heightTarget;
@@ -36,7 +36,7 @@ public class UpgradeButton : MonoBehaviour
         {
             NotEnoughMoney();
 
-            if (AdsManager.Instance.rewardedReady)
+            if (AdsManager.Instance!=null)
             {
                 AdsManager.Instance.ShowRewarded(DoUpgrade);
             }

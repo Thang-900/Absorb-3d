@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Having ads
 public class CallSpinPane : MonoBehaviour
 {
     public GameObject spinPane;

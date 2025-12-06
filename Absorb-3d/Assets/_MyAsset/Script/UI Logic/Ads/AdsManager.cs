@@ -1,119 +1,83 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.Advertisements;
+﻿using UnityEngine;
+using Unity.Services.Core;
+using Unity.Services.LevelPlay;
+using System;
 
-public class AdsManager : MonoBehaviour,
-    IUnityAdsInitializationListener,
-    IUnityAdsLoadListener,
-    IUnityAdsShowListener
+public class AdsManager : MonoBehaviour
 {
     public static AdsManager Instance;
 
-    private Action onRewardEarned;
-    public bool rewardedReady;
-    public bool interstitialReady;
+    public string bannerAdUnitId = "2lhf295oshtpe0wz";
+    public string interstitialAdUnitId = "na9pnti60cr4n8og";
+    public string rewardedAdUnitId = "ox1h9iosgqbk63i1";
+    public string appKey = "2449a3b55";
 
-   
+    private LevelPlayBannerAd banner;
+    private LevelPlayInterstitialAd interstitial;
+    private LevelPlayRewardedAd rewarded;
 
-#if UNITY_ANDROID
-    private string gameId = "5987217";
-    private string interstitialId = "adsAndroid_1";
-    private string rewardedId = "Rewarded_Android"; // tạm – lát sẽ tạo
+    // Callback sẽ chạy khi xem xong ads
+    private Action rewardCallback;
 
-#endif
-
-    private void Awake()
+    private async void Awake()
     {
-        // Singleton
-        if (Instance == null)
-            Instance = this;
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
+        if (Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }
+        else { Destroy(gameObject); return; }
 
-        // Initialize với testMode = false (Dashboard sẽ điều khiển test)
-        Advertisement.Initialize(gameId, true, this);
-    }
-    // ================== LOAD ==================
-    private void LoadInterstitial()
-    {
-        Advertisement.Load(interstitialId, this);
-    }
+        await UnityServices.InitializeAsync();
 
-    private void LoadRewarded()
-    {
-        Advertisement.Load(rewardedId, this);
-    }
+        string userId = SystemInfo.deviceUniqueIdentifier;
+        LevelPlay.Init(appKey, userId);
 
-    public void LoadAll()
-    {
-        LoadInterstitial();
-        LoadRewarded();
+        // Create ads
+        banner = new LevelPlayBannerAd(bannerAdUnitId);
+        interstitial = new LevelPlayInterstitialAd(interstitialAdUnitId);
+        rewarded = new LevelPlayRewardedAd(rewardedAdUnitId);
+
+        // Register rewarded events
+        rewarded.OnAdRewarded += OnRewardedSuccess;
+        rewarded.OnAdClosed += OnRewardedClosed;
+
+        // Load ads
+        banner.LoadAd();
+        interstitial.LoadAd();
+        rewarded.LoadAd();
     }
 
-    // ================== SHOW ==================
+    // ---------------- BANNER ----------------
+    public void ShowBanner() => banner?.ShowAd();
+    public void HideBanner() => banner?.HideAd();
 
+    // ---------------- INTER ----------------
     public void ShowInterstitial()
     {
-        Advertisement.Show(interstitialId, this);
+        if (interstitial != null && interstitial.IsAdReady())
+            interstitial.ShowAd();
+        else
+            interstitial?.LoadAd();
     }
 
-    public void ShowRewarded(Action rewardCallback)
+    // ---------------- REWARDED ----------------
+    public void ShowRewarded(Action onRewarded)
     {
-        onRewardEarned = rewardCallback;
-        Advertisement.Show(rewardedId, this);
+        rewardCallback = onRewarded;
+
+        if (rewarded != null && rewarded.IsAdReady())
+            rewarded.ShowAd();
+        else
+            rewarded?.LoadAd();
     }
 
-    // ============== CALLBACKS ==============
-
-    public void OnInitializationComplete()
+    private void OnRewardedSuccess(LevelPlayAdInfo adInfo, LevelPlayReward reward)
     {
-        Debug.Log("Unity Ads INITIALIZED");
-        LoadAll();
+        Debug.Log("🎉 Rewarded Ads: SUCCESS – Running reward callback!");
+
+        rewardCallback?.Invoke();
+        rewardCallback = null;
     }
 
-    public void OnInitializationFailed(UnityAdsInitializationError error, string message)
+    private void OnRewardedClosed(LevelPlayAdInfo adInfo)
     {
-        Debug.LogError($"Unity Ads INIT FAILED: {message}");
+        Debug.Log("❌ Rewarded Ads closed.");
     }
-
-    public void OnUnityAdsAdLoaded(string placementId)
-    {
-        if (placementId == rewardedId)
-            rewardedReady = true;
-
-        if (placementId == interstitialId)
-            interstitialReady = true;
-    }
-
-    public void OnUnityAdsFailedToLoad(string placementId, UnityAdsLoadError error, string message)
-    {
-        Debug.LogError($"LOAD FAILED ({placementId}): {message}");
-    }
-
-    public void OnUnityAdsShowComplete(string placementId, UnityAdsShowCompletionState state)
-    {
-        Debug.Log($"SHOW COMPLETE: {placementId}, State: {state}");
-
-        // Reward
-        if (placementId == rewardedId &&
-            state == UnityAdsShowCompletionState.COMPLETED)
-        {
-            Debug.Log("REWARD PLAYER");
-            onRewardEarned?.Invoke();
-        }
-
-        // Load lại
-        Advertisement.Load(placementId, this);
-    }
-
-    public void OnUnityAdsShowFailure(string placementId, UnityAdsShowError error, string message)
-    {
-        Debug.LogError($"SHOW FAILED ({placementId}): {message}");
-    }
-
-    public void OnUnityAdsShowStart(string placementId) { }
-    public void OnUnityAdsShowClick(string placementId) { }
 }
